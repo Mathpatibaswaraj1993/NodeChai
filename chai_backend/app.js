@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import userRouter from './src/routes/user.routes.js';
+import router from './src/routes/user.routes.js'
 
 const app = express()
 
@@ -17,10 +18,9 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 //routes
-import router from './src/routes/user.routes.js'
 
 //routes declaration
-app.use("api/v1/users",userRouter)
+app.use("/api/v1/users",userRouter)
 
 // http://localhost:8000/api/v1/users/register
 export {app}
