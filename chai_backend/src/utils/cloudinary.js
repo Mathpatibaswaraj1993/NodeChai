@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from cloudinary
+import { v2 as cloudinary } from 'cloudinary'
 import fs from "fs"
 
 
@@ -14,7 +14,7 @@ const uploadOnCloudinary = async (localFilepath) => {
         if (!localFilepath) return null
         //upload the file on cloudinary
         cloudinary.uploader.upload(localFilepath, {
-            resource_type:"auto"
+            resource_type: "auto"
         })
         //file has been uploaded successfull
         console.log("file os uploaded on cloudinary",
@@ -24,8 +24,8 @@ const uploadOnCloudinary = async (localFilepath) => {
         fs.unlinkSync(localFilepath)
         // remove the locally saved temporary file as the upload operation got failed
         return null;
-    
+
     }
 }
 
-export {uploadOnCloudinary}
+export { uploadOnCloudinary }

@@ -1,10 +1,10 @@
 import asyncHandler from '../utils/asyncHandler.js';
 import { ApiError } from "../utils/AppError.js"
-import User from "../models/user.model.js"
+import { User } from "../models/user.model.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import { ApiResponse } from '../utils/ApiResponse.js';
 
-const registerUser = asyncHandler(async (req, res) => {
+// const registerUser = asyncHandler(async (req, res) => {
     //get user details from frontend
     //validation -not empty
     //check if user already exists:username,email
@@ -17,8 +17,8 @@ const registerUser = asyncHandler(async (req, res) => {
 
 
 
-    const { email } = req.body
-    console.log("email:", email);
+    // const { fullName, email, username, password } = req.body
+    // console.log("email:", email);
     /*  
      if (fullName === "") {
          throw new ApiError(400,"fullname is required")
@@ -26,11 +26,26 @@ const registerUser = asyncHandler(async (req, res) => {
  */
 
     // validation not empty checking
-    if (
-        [fullName, email, username, password].some((field) => field?.trim() === "")
-    ) {
-        throw new ApiError(400, "All fields are required")
+
+    // if (
+    //     [{ fullName, email, username, password }].some(field => typeof field !== 'string' || field.trim() === "")) {
+    //     console.log("Request Body:", { fullName, email, username, password });
+
+    //     throw new ApiError(400, "All fields are required")
+    // }
+    
+const registerUser = asyncHandler(async (req, res) => {
+    const { fullName, email, username, password } = req.body;
+
+    console.log({ fullName, email, username, password }); // Debug log
+
+    if ([fullName, email, username, password].some(field => typeof field !== 'string' || field.trim() === '')) {
+        throw new ApiError(400, "All fields are required");
     }
+
+      
+    
+    
     //check if user already exists:username,email
     const existedUser = User.findOne({
         $or: [{ username }, { email }]
@@ -76,7 +91,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     return res.status(201).json(
-        new ApiResponse(200,createdUser,"User Registered  Successfully")
+        new ApiResponse(200, createdUser, "User Registered  Successfully")
     )
 
 });
